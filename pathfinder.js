@@ -1,3 +1,5 @@
+let allowDiag = true;
+
 function removeFromArray (arr, elem) {
   for (var i = arr.length - 1; i >= 0; i--) {
     if (arr[i] === elem) {
@@ -7,12 +9,15 @@ function removeFromArray (arr, elem) {
 }
 
 function heuristic (a, b) {
-  return dist(a.x, a.y, b.x, b.y);
-  // return abs(a.x - b.x) + abs(a.y - b.y);
+  if (allowDiag) {
+    return dist(a.x, a.y, b.x, b.y);
+  } else {
+    return abs(a.x - b.x) + abs(a.y - b.y);
+  }
 }
 
-var cols = 50;
-var rows = 50;
+var cols = 200;
+var rows = 100;
 var grid = new Array(cols);
 
 var openSet = [];
@@ -38,13 +43,16 @@ function Spot(i, j) {
   }
 
   this.show = function (col) {
-    // fill(col);
     if (this.wall) {
-      fill(0);
+      fill(0)
       noStroke();
-      ellipse(this.x * w + w / 2, this.y * h + h / 2, w / 2, h / 2);
+      // ellipse(this.x * w + w / 2, this.y * h + h / 2, w / 2, h / 2);
+      rect(this.x * w, this.y * h, w - 1, h - 1);
+    } else {
+      fill(255)
+      noStroke()
+      rect(this.x * w, this.y * h, w - 1, h - 1);
     }
-    // rect(this.x * w, this.y * h, w - 1, h - 1);
   }
 
   this.addNeighbors = function (grid) {
@@ -67,20 +75,22 @@ function Spot(i, j) {
       this.neighbors.push(grid[i][j - 1]);
     }
 
-    if (i > 0 && j > 0) {
-      this.neighbors.push(grid[i - 1][j - 1]);
-    }
+    if (allowDiag) {
+      if (i > 0 && j > 0) {
+        this.neighbors.push(grid[i - 1][j - 1]);
+      }
 
-    if (i < cols - 1 && j > 0) {
-      this.neighbors.push(grid[i + 1][j - 1]);
-    }
+      if (i < cols - 1 && j > 0) {
+        this.neighbors.push(grid[i + 1][j - 1]);
+      }
 
-    if (i > 0 && j < rows - 1) {
-      this.neighbors.push(grid[i - 1][j + 1]);
-    }
+      if (i > 0 && j < rows - 1) {
+        this.neighbors.push(grid[i - 1][j + 1]);
+      }
 
-    if (i < cols - 1 && j < rows - 1) {
-      this.neighbors.push(grid[i + 1][j + 1]);
+      if (i < cols - 1 && j < rows - 1) {
+        this.neighbors.push(grid[i + 1][j + 1]);
+      }
     }
   }
 }
@@ -177,7 +187,7 @@ function draw () {
     return;
   }
 
-  background(255);
+  background(180);
 
   path = [];
   var temp = current;
@@ -206,7 +216,7 @@ function draw () {
   // }
 
   noFill();
-  stroke(255, 0, 200);
+  stroke(100, 87, 200);
   strokeWeight(w / 2);
   beginShape();
   for (var i = 0; i < path.length; i++) {
