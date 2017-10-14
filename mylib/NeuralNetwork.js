@@ -46,8 +46,8 @@ class NeuralNetwork {
       this.wih.randomize();
       this.who.randomize();
 
-      // Default learning rate of 0.1
-      this.lr = learning_rate || 0.1;
+      // Default learning rate of 0.3
+      this.lr = learning_rate || 0.3;
 
       // Activation Function
       if (activation == 'tanh') {
@@ -80,6 +80,7 @@ class NeuralNetwork {
 
     // The input to the hidden layer is the weights (wih) multiplied by inputs
     const hidden_inputs = Matrix.dot(this.wih, inputs);
+
     // The outputs of the hidden layer pass through sigmoid activation function
     const hidden_outputs = Matrix.map(hidden_inputs, this.activation);
 
