@@ -11,10 +11,9 @@ function mutate(x) {
   }
 }
 
-// Neural Network constructor function
 class NeuralNetwork {
+  // Neural Network constructor function
   constructor(inputnodes, hiddennodes, outputnodes, learning_rate, activation) {
-
     // If it's a copy of another NN
     if (arguments[0] instanceof NeuralNetwork) {
       const nn = arguments[0];
@@ -55,7 +54,7 @@ class NeuralNetwork {
         this.derivative = NeuralNetwork.dtanh;
       } else {
         this.activation = NeuralNetwork.sigmoid;
-        this.derivative = NeuralNetwork.dSigmoid;
+        this.derivative = NeuralNetwork.dsigmoid;
       }
 
     }
@@ -145,23 +144,10 @@ class NeuralNetwork {
   }
 }
 
-// Sigmoid function
-// This is used for activation
-// https://en.wikipedia.org/wiki/Sigmoid_function
-NeuralNetwork.sigmoid = x => {
-  const y = 1 / (1 + Math.pow(Math.E, -x));
-  return y;
-}
+NeuralNetwork.sigmoid = x => 1 / (1 + Math.pow(Math.E, -x))
 
-// This is the Sigmoid derivative!
-NeuralNetwork.dSigmoid = x => x * (1 - x)
+NeuralNetwork.dsigmoid = x => x * (1 - x)
 
-NeuralNetwork.tanh = x => {
-  const y = Math.tanh(x);
-  return y;
-}
+NeuralNetwork.tanh = x => Math.tanh(x)
 
-NeuralNetwork.dtanh = x => {
-  const y = 1 / (Math.pow(Math.cosh(x), 2));
-  return y;
-}
+NeuralNetwork.dtanh = x => 1 / (Math.pow(Math.cosh(x), 2))

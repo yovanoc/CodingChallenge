@@ -1,5 +1,5 @@
-// Make a matrix full of zeros
 class Matrix {
+  // Make a matrix full of zeros
   constructor(rows, cols) {
     this.rows = rows;
     this.cols = cols;
